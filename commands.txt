@@ -1,0 +1,13 @@
+opt -load ./MemoryInstruction.so -memory-instruction-counter -enable-new-pm=0< llvm_ir_python.ll    #Applying the custom pass with opt
+
+clang++ -shared -o MemoryInstruction.so MemoryInstruction.cpp `llvm-config --cxxflags --ldflags --libs` -fPIC   #converts C++ file to shared library (Custom Pass)
+
+clang -S -emit-llvm python_to_C.c -o llvm_ir_python.ll -I/usr/include/python3.10    #converts C file to LLVM IR code
+
+cython3 -3 --embed -I/usr/lib/python3/dist-packages -o python_to_C.c python_program.py  #converts python program to C program
+
+sudo apt install cython3
+
+sudo apt install clang llvm    
+
+
